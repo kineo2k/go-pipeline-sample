@@ -1,7 +1,9 @@
 package main
 
-import "fmt"
+import (
+	"go-pipeline-sample/server"
+)
 
 func main() {
-	fmt.Println("Hello Gump!")
+	server.EchoStart(7063)
 }
