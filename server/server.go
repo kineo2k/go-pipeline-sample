@@ -5,8 +5,6 @@ import (
 	"github.com/labstack/echo/v4"
 	"github.com/labstack/echo/v4/middleware"
 	"go-pipeline-sample/tm"
-	"html/template"
-	"io"
 	"net/http"
 )
 
@@ -14,9 +12,6 @@ func EchoStart(port int32) {
 	e := echo.New()
 
 	e.Use(middleware.Recover())
-
-	// Renderer
-	e.Renderer = &_Template{templates: template.Must(template.ParseGlob("statics/templates/*.html"))}
 
 	// Statics
 	e.GET("/*", func(c echo.Context) error {
@@ -37,12 +32,4 @@ func EchoStart(port int32) {
 	})
 
 	e.Logger.Fatal(e.Start(fmt.Sprintf(":%d", port)))
-}
-
-type _Template struct {
-	templates *template.Template
-}
-
-func (t *_Template) Render(w io.Writer, name string, data interface{}, c echo.Context) error {
-	return t.templates.ExecuteTemplate(w, name, data)
 }

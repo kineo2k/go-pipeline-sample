@@ -23,7 +23,7 @@ func isUnacceptable(rawValue string) bool {
 func CurrentRunMode() RunMode {
 	argsWithoutProgramArguments := os.Args[1:]
 	if len(argsWithoutProgramArguments) != 1 {
-		panic("실행 모드 파라미터 누락 (local, production)\n")
+		panic("실행 모드 파라미터 누락\n")
 	}
 
 	rawValue := argsWithoutProgramArguments[0]
