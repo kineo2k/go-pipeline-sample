@@ -1,0 +1,10 @@
+.logo {
+    display: inline-block;
+    margin-right: 8px;
+    width: 44px;
+    line-height: 44px;
+    border-radius: 22px;
+    text-align: center;
+    color: white;
+    background-color: #212529;
+}

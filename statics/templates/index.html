@@ -4,12 +4,113 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width,initial-scale=1">
     <title>Go Pipeline Pattern Sample</title>
+
     <link rel="stylesheet" href="../styles/bootstrap.min.css">
     <link rel="stylesheet" href="../styles/main.css">
 </head>
 <body>
+<template id="card-item">
+    <div class="col">
+        <div class="card shadow-sm">
+            <svg class="bd-placeholder-img card-img-top" width="100%" height="225" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Placeholder: Thumbnail" preserveAspectRatio="xMidYMid slice" focusable="false"><title>Placeholder</title><rect width="100%" height="100%" fill="#55595c"/><text x="50%" y="50%" fill="#eceeef" dy=".3em">Thumbnail</text></svg>
+            <div class="card-body">
+                <p class="card-text">
+                    <code></code>
+                </p>
+                <div class="d-flex justify-content-between align-items-center">
+                    <div class="btn-group">
+                        <button type="button" class="btn btn-sm btn-outline-secondary">Input</button>
+                        <button type="button" class="btn btn-sm btn-outline-secondary">Output</button>
+                        <button type="button" class="btn btn-sm btn-outline-secondary">Delete</button>
+                    </div>
+<!--                    <small class="text-muted">9 mins</small>-->
+                </div>
+            </div>
+        </div>
+    </div>
+</template>
+
 <main>
-    <h1>Go Pipeline Pattern Sample</h1>
+    <div class="container">
+        <header class="d-flex flex-wrap justify-content-center py-3 border-bottom">
+            <a href="/" class="d-flex align-items-center mb-3 mb-md-0 me-md-auto text-dark text-decoration-none">
+                <span class="logo fs-4">GO</span>
+                <span class="fs-4">Pipeline Pattern Sample</span>
+            </a>
+        </header>
+
+        <section class="py-5 border-bottom">
+            <h4 class="mb-2">Input</h4>
+            <div class="row">
+                <div class="col-lg-6 col-md-100">
+                    <div class="input-group">
+                        <input type="text" class="form-control" placeholder="Enter jpeg image url (https://yourimage.com/sample.jpg)" id="option-input-url">
+                        <button type="submit" class="btn btn-secondary" id="btn-run">Run</button>
+                    </div>
+                </div>
+            </div>
+
+            <h4 class="mt-4 mb-2">Resize</h4>
+            <div class="row">
+                <div class="col-md-2">
+                    <label for="option-resize-width" class="form-label">Width (px)</label>
+                    <input type="text" class="form-control" id="option-resize-width" required>
+                </div>
+                <div class="col-md-2">
+                    <label for="option-resize-height" class="form-label">Height (px)</label>
+                    <input type="text" class="form-control" id="option-resize-height" required>
+                </div>
+                <div class="mt-2">
+                    <input type="checkbox" class="form-check-input" id="option-resize-keep">
+                    <label class="form-check-label" for="option-resize-keep">Keep Aspect Ratio</label>
+                </div>
+            </div>
+
+            <h4 class="mt-4 mb-2">Crop</h4>
+            <div class="row">
+                <div class="col-md-2">
+                    <input id="option-crop-none" type="radio" class="form-check-input" name="option-crop" value="none" checked required>
+                    <label class="form-check-label" for="option-crop-none">None</label>
+                </div>
+                <div class="col-md-2">
+                    <input id="option-crop-top" type="radio" class="form-check-input" name="option-crop" value="top" required>
+                    <label class="form-check-label" for="option-crop-top">Top</label>
+                </div>
+                <div class="col-md-2">
+                    <input id="option-crop-center" type="radio" class="form-check-input" name="option-crop" value="center" required>
+                    <label class="form-check-label" for="option-crop-center">Middle</label>
+                </div>
+                <div class="col-md-2">
+                    <input id="option-crop-bottom" type="radio" class="form-check-input" name="option-crop" value="bottom" required>
+                    <label class="form-check-label" for="option-crop-bottom">Bottom</label>
+                </div>
+            </div>
+
+            <h4 class="mt-4 mb-2">Effect</h4>
+            <div class="row">
+                <div class="col-md-2">
+                    <input id="option-effect-none" type="radio" class="form-check-input" name="option-effect" value="none" checked required>
+                    <label class="form-check-label" for="option-effect-none">None</label>
+                </div>
+                <div class="col-md-2">
+                    <input id="option-effect-blur" type="radio" class="form-check-input" name="option-effect" value="blur" required>
+                    <label class="form-check-label" for="option-effect-blur">Blur</label>
+                </div>
+                <div class="col-md-2">
+                    <input id="option-effect-sharpening" type="radio" class="form-check-input" name="option-effect" value="sharpening" required>
+                    <label class="form-check-label" for="option-effect-sharpening">Sharpening</label>
+                </div>
+                <div class="col-md-2">
+                    <input id="option-effect-brightness" type="radio" class="form-check-input" name="option-effect" value="brightness" required>
+                    <label class="form-check-label" for="option-effect-brightness">Brightness</label>
+                </div>
+            </div>
+        </section>
+
+        <section class="py-5">
+            <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3" id="card-table"></div>
+        </section>
+    </div>
 </main>
 <script src="../scripts/main.js"></script>
 </body>
