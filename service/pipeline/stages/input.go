@@ -29,11 +29,16 @@ func (i *Input) Process(in <-chan *task.Task) <-chan *task.Task {
 			if i.download(t) {
 				fmt.Println("  - Download Success")
 				t.Img = i.open(t)
+
+				out <- t
 			} else {
 				fmt.Println("  - Download Failure")
-			}
 
-			out <- t
+				t.Ticket <- &task.Result{
+					OutputPath: t.OutputPath(),
+				}
+				close(t.Ticket)
+			}
 		}
 	}()
 

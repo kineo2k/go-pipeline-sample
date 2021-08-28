@@ -11,6 +11,7 @@ RUN GOOS=linux GOARCH=amd64 CGO_ENABLED=0 go build -o go-pipeline-sample -a -ins
 
 FROM scratch
 
+COPY --from=builder /etc/ssl/certs/ca-certificates.crt /etc/ssl/certs/
 COPY --from=builder /build/go-pipeline-sample .
 
 ENTRYPOINT ["./go-pipeline-sample", "production"]

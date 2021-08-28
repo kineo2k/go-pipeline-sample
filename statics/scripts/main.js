@@ -87,7 +87,8 @@ const fetchImage = (spec, id) => {
             };
         })
         .catch(function (error) {
-            console.log(error);
+            const cardText = document.querySelector(`#${id} p.card-text:nth-child(1) > code`);
+            cardText.innerHTML = `<span>Image Processing Failed.</span><pre>${JSON.stringify(spec, undefined, 2)}</pre>`;
         });
 };
 
