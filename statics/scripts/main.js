@@ -65,7 +65,7 @@ const renderCartItem = spec => {
     };
 
     const cardTable = document.querySelector("#card-table");
-    cardTable.appendChild(clone);
+    cardTable.insertBefore(clone, cardTable.firstChild);
 
     return id;
 };
