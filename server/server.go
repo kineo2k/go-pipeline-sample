@@ -2,34 +2,22 @@ package server
 
 import (
 	"fmt"
+	validator2 "github.com/go-playground/validator"
 	"github.com/labstack/echo/v4"
 	"github.com/labstack/echo/v4/middleware"
-	"go-pipeline-sample/tm"
-	"net/http"
+	"go-pipeline-sample/controllers"
 )
 
 func EchoStart(port int32) {
 	e := echo.New()
 
 	e.Use(middleware.Recover())
+	e.Validator = &RestApiValidator{validator: validator2.New()}
 
-	// Statics
-	e.GET("/*", func(c echo.Context) error {
-		path := c.Request().RequestURI
-
-		if tm.GetInstance().Exists(path) {
-			blob, contentType := tm.GetInstance().GetFile(path)
-			return c.Blob(http.StatusOK, contentType, blob)
-		}
-
-		return c.NoContent(http.StatusNotFound)
-	})
-
-	// Index
-	e.GET("/", func(c echo.Context) error {
-		blob, contentType := tm.GetInstance().GetFile("templates/index.html")
-		return c.Blob(http.StatusOK, contentType, blob)
-	})
+	// Routing Rules
+	e.GET("/", controllers.NewIndex().Handle)
+	e.GET("/*", controllers.NewStatics().Handle)
+	e.POST("/image-processing", controllers.NewImageProcessing().Handle)
 
 	e.Logger.Fatal(e.Start(fmt.Sprintf(":%d", port)))
 }

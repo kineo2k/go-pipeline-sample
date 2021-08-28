@@ -16,33 +16,34 @@ window.onload = () => {
 }
 
 const run = () => {
-    const spec = [];
+    const spec = {};
 
     const url = document.getElementById("option-input-url").value;
     if (!url) {
         return;
     }
-    spec.push({ "stage" : "input", url });
+    spec.input = { url };
 
-    const width = document.getElementById("option-resize-width").value;
-    const height = document.getElementById("option-resize-height").value;
-    const keepAspectRatio = document.getElementById("option-resize-keep").value;
+    const width = parseInt(document.getElementById("option-resize-width").value, 10);
+    const height = parseInt(document.getElementById("option-resize-height").value, 10);
+    const keepAspectRatio = document.getElementById("option-resize-keep").value === "on";
     if (!width && !height) {
         return;
     }
-    spec.push({"stage" : "resize", width, height, keepAspectRatio });
+    spec.resize = { width, height, keepAspectRatio };
 
     const anchor = document.querySelector("input[name='option-crop']:checked").value;
-    spec.push({"stage" : "crop", anchor });
+    spec.crop = { anchor };
 
     const type = document.querySelector("input[name='option-effect']:checked").value;
-    spec.push({"stage" : "effect", type });
+    spec.effect = { type };
 
     renderCartItem(spec);
+    fetchImage(spec);
 };
 
-const renderCartItem = (spec) => {
-    const url = spec[0].url;
+const renderCartItem = spec => {
+    const url = spec.input.url;
     const cartItem = document.querySelector("#card-item");
     const clone = document.importNode(cartItem.content, true);
 
@@ -68,4 +69,14 @@ const renderCartItem = (spec) => {
 
     const cardTable = document.querySelector("#card-table");
     cardTable.appendChild(clone);
+};
+
+const fetchImage = spec => {
+    axios.post("/image-processing", spec)
+        .then(function (response) {
+            console.log(response);
+        })
+        .catch(function (error) {
+            console.log(error);
+        });
 };
