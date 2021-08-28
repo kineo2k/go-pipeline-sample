@@ -8,3 +8,7 @@
     color: white;
     background-color: #212529;
 }
+
+img {
+    object-fit: contain;
+}

@@ -12,7 +12,7 @@
 <template id="card-item">
     <div class="col">
         <div class="card shadow-sm">
-            <svg class="bd-placeholder-img card-img-top" width="100%" height="225" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Placeholder: Thumbnail" preserveAspectRatio="xMidYMid slice" focusable="false"><title>Placeholder</title><rect width="100%" height="100%" fill="#55595c"/><text x="50%" y="50%" fill="#eceeef" dy=".3em">Thumbnail</text></svg>
+            <img class="bd-placeholder-img card-img-top" width="100%" height="300" alt="thumbnail" style="background-color: #55595c" />
             <div class="card-body">
                 <p class="card-text">
                     <code></code>
@@ -44,7 +44,7 @@
             <div class="row">
                 <div class="col-lg-6 col-md-100">
                     <div class="input-group">
-                        <input type="text" class="form-control" placeholder="Enter jpeg image url (https://yourimage.com/sample.jpg)" id="option-input-url">
+                        <input type="text" class="form-control" placeholder="Enter jpeg image url (https://yourimage.com/sample.jpg)" id="option-input-url" value="https://image.fmkorea.com/files/attach/new/20191214/2063168106/1904975248/2492441040/0f5acf9dbafe4d7e5ca542ebbab87eca.jpg">
                         <button type="submit" class="btn btn-secondary" id="btn-run">Run</button>
                     </div>
                 </div>
@@ -54,11 +54,11 @@
             <div class="row">
                 <div class="col-md-2">
                     <label for="option-resize-width" class="form-label">Width (px)</label>
-                    <input type="text" class="form-control" id="option-resize-width" required>
+                    <input type="text" class="form-control" id="option-resize-width" required value="400">
                 </div>
                 <div class="col-md-2">
                     <label for="option-resize-height" class="form-label">Height (px)</label>
-                    <input type="text" class="form-control" id="option-resize-height" required>
+                    <input type="text" class="form-control" id="option-resize-height" required value="600">
                 </div>
                 <div class="mt-2">
                     <input type="checkbox" class="form-check-input" id="option-resize-keep">

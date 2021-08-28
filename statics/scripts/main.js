@@ -26,7 +26,7 @@ const run = () => {
 
     const width = parseInt(document.getElementById("option-resize-width").value, 10);
     const height = parseInt(document.getElementById("option-resize-height").value, 10);
-    const keepAspectRatio = document.getElementById("option-resize-keep").value === "on";
+    const keepAspectRatio = document.querySelector("#option-resize-keep:checked") !== null;
     if (!width && !height) {
         return;
     }
@@ -38,26 +38,23 @@ const run = () => {
     const type = document.querySelector("input[name='option-effect']:checked").value;
     spec.effect = { type };
 
-    renderCartItem(spec);
-    fetchImage(spec);
+    const id = renderCartItem(spec);
+    fetchImage(spec, id);
 };
 
 const renderCartItem = spec => {
     const url = spec.input.url;
+    const id = randomID();
+
     const cartItem = document.querySelector("#card-item");
     const clone = document.importNode(cartItem.content, true);
+    clone.querySelector("div").setAttribute("id", id);
 
     const cardText = clone.querySelector("p.card-text:nth-child(1) > code");
     cardText.innerHTML = `<pre>${JSON.stringify(spec, undefined, 2)}</pre>`;
 
     // Input
     clone.querySelector("button:nth-child(1)").onclick = (ev) => {
-        const newWin = window.open(url, "_blank");
-        newWin.focus();
-    };
-
-    // Output
-    clone.querySelector("button:nth-child(2)").onclick = (ev) => {
         const newWin = window.open(url, "_blank");
         newWin.focus();
     };
@@ -69,14 +66,29 @@ const renderCartItem = spec => {
 
     const cardTable = document.querySelector("#card-table");
     cardTable.appendChild(clone);
+
+    return id;
 };
 
-const fetchImage = spec => {
+const fetchImage = (spec, id) => {
     axios.post("/image-processing", spec)
-        .then(function (response) {
-            console.log(response);
+        .then(res => {
+            const thumbnail = document.querySelector(`#${id} img:nth-child(1)`);
+            thumbnail.setAttribute("src", `data:image/jpeg;base64,${res.data}`);
+
+            // Output
+            document.querySelector(`#${id} button:nth-child(2)`).onclick = (ev) => {
+                const image = new Image();
+                image.src = thumbnail.getAttribute("src");
+
+                const newWin = window.open("", "_blank");
+                newWin.document.write(image.outerHTML);
+                newWin.document.close();
+            };
         })
         .catch(function (error) {
             console.log(error);
         });
 };
+
+const randomID = () => "img-" + Math.random().toString().substr(2,11);
